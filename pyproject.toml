@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "audio_features"
+version = "0.2.0"
+description = "Audio feature extraction, preprocessing, augmentation, and visualization utilities."
+readme = "README.md"
+requires-python = ">=3.9,<3.14"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "AudioFeatures contributors" }]
+keywords = ["audio", "features", "signal-processing", "librosa"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Scientific/Engineering :: Information Analysis"
+]
+dependencies = [
+    "numpy>=1.21",
+    "scipy>=1.8",
+    "librosa>=0.10.0",
+    "numba>=0.59.1",
+    "soundfile>=0.12.1"
+]
+
+[project.urls]
+Homepage = "https://github.com/xincy22/audio_features"
+Source = "https://github.com/xincy22/audio_features"
+Issues = "https://github.com/xincy22/audio_features/issues"
+
+[project.optional-dependencies]
+viz = ["matplotlib>=3.7"]
+docs = ["mkdocs>=1.5", "mkdocs-material>=9.5", "mkdocstrings[python]>=0.25"]
+dev = ["pytest>=7", "pytest-cov", "ruff>=0.4", "black>=24", "mypy>=1.5"]
+
+[tool.setuptools]
+packages = { find = { exclude = ["tests*", "examples*", "docs*"] } }
+include-package-data = true

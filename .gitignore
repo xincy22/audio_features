@@ -1,0 +1,35 @@
+# Byte-compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# Cache directories
+__pycache__/
+
+# Distribution / Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environment
+venv/
+.env/
+env/
+ENV/
+.venv/
+.venv*/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Pytest cache
+.pytest_cache/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+# MkDocs build output
+site/

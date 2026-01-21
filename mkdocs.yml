@@ -1,0 +1,28 @@
+site_name: Audio Features
+site_dir: site
+docs_dir: docs
+
+theme:
+  name: material
+  language: zh
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [audiofeatures]
+          options:
+            docstring_style: numpy
+            show_signature_annotations: true
+            show_source: false
+
+nav:
+  - 首页: index.md
+  - 安装: installation.md
+  - 发布指南: publishing.md
+  - 快速上手: quickstart.md
+  - 使用指南: guide.md
+  - API 概览: api.md
+  - API 参考: reference.md
+  - 常见问题: faq.md
