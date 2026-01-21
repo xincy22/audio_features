@@ -3,6 +3,8 @@
 import numpy as np
 import warnings
 
+from audiofeatures.utils.contract import ensure_float32
+
 
 def segment_by_energy(signal, sr, threshold=0.05, min_length=0.1):
     """基于能量阈值进行分段。
@@ -33,7 +35,8 @@ def segment_by_energy(signal, sr, threshold=0.05, min_length=0.1):
     UserWarning
         当信号能量接近 0 时返回空列表。
     """
-    if not isinstance(signal, np.ndarray) or signal.ndim != 1:
+    signal = ensure_float32(signal)
+    if signal.ndim != 1:
         raise ValueError("输入信号必须是一维 numpy 数组")
     if not isinstance(sr, int) or sr <= 0:
         raise ValueError("采样率必须是正整数")
@@ -45,7 +48,7 @@ def segment_by_energy(signal, sr, threshold=0.05, min_length=0.1):
     energy = signal ** 2
     max_energy = np.max(energy)
 
-    if np.isclose(max_energy, 0.0, atol=np.finfo(float).eps):
+    if np.isclose(max_energy, 0.0, atol=np.finfo(signal.dtype).eps):
         warnings.warn("信号能量过低，可能无法检测到有效片段")
         return []
 
@@ -108,7 +111,8 @@ def segment_by_zcr(
     UserWarning
         当信号长度不足一帧时返回空列表。
     """
-    if not isinstance(signal, np.ndarray) or signal.ndim != 1:
+    signal = ensure_float32(signal)
+    if signal.ndim != 1:
         raise ValueError("输入信号必须是一维 numpy 数组")
     if not isinstance(sr, int) or sr <= 0:
         raise ValueError("采样率必须是正整数")

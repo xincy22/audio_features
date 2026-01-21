@@ -45,3 +45,15 @@ dev = ["pytest>=7", "pytest-cov", "ruff>=0.4", "black>=24", "mypy>=1.5"]
 [tool.setuptools]
 packages = { find = { exclude = ["tests*", "examples*", "docs*"] } }
 include-package-data = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]

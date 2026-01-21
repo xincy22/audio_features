@@ -16,21 +16,21 @@ class TestPipeline(unittest.TestCase):
         self.assertIn("mfcc", features)
         self.assertIn("spectral_centroid", features)
         self.assertIn("zcr", features)
-        self.assertEqual(features["mfcc"].shape[0], 13)
-        self.assertEqual(features["spectral_centroid"].ndim, 1)
-        self.assertEqual(features["zcr"].ndim, 1)
+        self.assertEqual(features["mfcc"].shape[1], 13)
+        self.assertEqual(features["spectral_centroid"].ndim, 2)
+        self.assertEqual(features["zcr"].ndim, 2)
 
     def test_feature_aggregator(self):
         features = {
-            "mfcc": np.random.randn(13, 10),
-            "zcr": np.random.rand(10)
+            "mfcc": np.random.randn(10, 13),
+            "zcr": np.random.rand(10, 1)
         }
         aggregator = FeatureAggregator()
         aggregated = aggregator.aggregate_features(features, ["mean", "std"])
         self.assertIn("mfcc_mean", aggregated)
         self.assertIn("zcr_mean", aggregated)
         self.assertEqual(np.asarray(aggregated["mfcc_mean"]).shape, (13,))
-        self.assertEqual(np.asarray(aggregated["zcr_mean"]).shape, ())
+        self.assertEqual(np.asarray(aggregated["zcr_mean"]).shape, (1,))
 
         stats = aggregator.aggregate_statistics(features)
         self.assertIn("mfcc", stats)

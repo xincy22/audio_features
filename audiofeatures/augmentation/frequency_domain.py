@@ -3,6 +3,8 @@
 import numpy as np
 import librosa
 
+from audiofeatures.utils.contract import ensure_float32
+
 
 def spectral_contrast(signal, sr, enhancement_factor=5.0, n_fft=2048, hop_length=512):
     """增强谱对比度。
@@ -30,7 +32,7 @@ def spectral_contrast(signal, sr, enhancement_factor=5.0, n_fft=2048, hop_length
     ValueError
         输入非法时抛出。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if sr <= 0:
@@ -45,7 +47,8 @@ def spectral_contrast(signal, sr, enhancement_factor=5.0, n_fft=2048, hop_length
     enhanced_log = mean_log + enhancement_factor * (log_mag - mean_log)
     enhanced_mag = np.maximum(np.expm1(enhanced_log), 0.0)
     enhanced_stft = enhanced_mag * np.exp(1j * phase)
-    return librosa.istft(enhanced_stft, hop_length=hop_length, length=signal.size)
+    enhanced = librosa.istft(enhanced_stft, hop_length=hop_length, length=signal.size)
+    return enhanced.astype(np.float32, copy=False)
 
 
 def harmonic_enhancement(signal, sr, enhancement_factor=2.0):
@@ -70,7 +73,7 @@ def harmonic_enhancement(signal, sr, enhancement_factor=2.0):
     ValueError
         输入非法时抛出。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if sr <= 0:
@@ -83,7 +86,7 @@ def harmonic_enhancement(signal, sr, enhancement_factor=2.0):
     max_abs = np.max(np.abs(enhanced))
     if max_abs > 1.0:
         enhanced = enhanced / max_abs
-    return enhanced
+    return enhanced.astype(np.float32, copy=False)
 
 
 def spectral_inversion(signal):
@@ -104,7 +107,7 @@ def spectral_inversion(signal):
     ValueError
         输入非法时抛出。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     return -signal
@@ -138,7 +141,7 @@ def frequency_mask(signal, sr, mask_start, mask_width, n_fft=2048, hop_length=51
     ValueError
         输入非法时抛出。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if sr <= 0:
@@ -151,4 +154,5 @@ def frequency_mask(signal, sr, mask_start, mask_width, n_fft=2048, hop_length=51
     mask_end = mask_start + mask_width
     mask = (freqs >= mask_start) & (freqs <= mask_end)
     stft[mask, :] = 0.0
-    return librosa.istft(stft, hop_length=hop_length, length=signal.size)
+    masked = librosa.istft(stft, hop_length=hop_length, length=signal.size)
+    return masked.astype(np.float32, copy=False)

@@ -4,9 +4,21 @@ import numpy as np
 import librosa
 
 from audiofeatures.core.signal_processing import frame_signal
+from audiofeatures.utils.contract import ensure_float32, to_feature_matrix
 
 
-def mfcc(signal, sr, n_mfcc=13, n_fft=2048, hop_length=512, n_mels=128, fmin=0.0, fmax=None):
+def mfcc(
+    signal,
+    sr,
+    n_mfcc=13,
+    n_fft=2048,
+    hop_length=512,
+    n_mels=128,
+    fmin=0.0,
+    fmax=None,
+    center=True,
+    pad_mode="constant"
+):
     """计算 MFCC（梅尔频率倒谱系数）。
 
     Parameters
@@ -27,11 +39,15 @@ def mfcc(signal, sr, n_mfcc=13, n_fft=2048, hop_length=512, n_mels=128, fmin=0.0
         最低频率（Hz）。
     fmax : float or None, optional
         最高频率（Hz），默认 ``sr / 2``。
+    center : bool, optional
+        是否在帧中心对齐。
+    pad_mode : str, optional
+        边界填充模式。
 
     Returns
     -------
     ndarray
-        MFCC 特征，形状为 ``(n_mfcc, n_frames)``。
+        MFCC 特征，形状为 ``(n_frames, n_mfcc)``。
 
     Raises
     ------
@@ -42,13 +58,13 @@ def mfcc(signal, sr, n_mfcc=13, n_fft=2048, hop_length=512, n_mels=128, fmin=0.0
     -----
     MFCC 常用于语音识别、说话人识别等任务。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if sr <= 0:
         raise ValueError("sr must be > 0")
 
-    return librosa.feature.mfcc(
+    mfccs = librosa.feature.mfcc(
         y=signal,
         sr=sr,
         n_mfcc=n_mfcc,
@@ -56,8 +72,11 @@ def mfcc(signal, sr, n_mfcc=13, n_fft=2048, hop_length=512, n_mels=128, fmin=0.0
         hop_length=hop_length,
         n_mels=n_mels,
         fmin=fmin,
-        fmax=fmax
+        fmax=fmax,
+        center=center,
+        pad_mode=pad_mode
     )
+    return to_feature_matrix(mfccs, frame_axis=1)
 
 
 def delta_mfcc(mfcc_features, order=1, width=9):
@@ -66,7 +85,7 @@ def delta_mfcc(mfcc_features, order=1, width=9):
     Parameters
     ----------
     mfcc_features : ndarray
-        MFCC 特征，形状为 ``(n_mfcc, n_frames)``。
+        MFCC 特征，形状为 ``(n_frames, n_mfcc)``。
     order : int, optional
         差分阶数：1 为一阶，2 为二阶。
     width : int, optional
@@ -82,18 +101,27 @@ def delta_mfcc(mfcc_features, order=1, width=9):
     ValueError
         输入维度或参数非法时抛出。
     """
-    mfcc_features = np.asarray(mfcc_features)
-    if mfcc_features.ndim != 2:
-        raise ValueError("mfcc_features must be a 2D array")
+    mfcc_features = to_feature_matrix(mfcc_features, frame_axis=0)
     if order not in (1, 2):
         raise ValueError("order must be 1 or 2")
     if width < 3 or width % 2 == 0:
         raise ValueError("width must be an odd integer >= 3")
 
-    return librosa.feature.delta(mfcc_features, order=order, width=width)
+    delta = librosa.feature.delta(mfcc_features.T, order=order, width=width).T
+    return delta.astype(np.float32, copy=False)
 
 
-def mel_spectrogram(signal, sr, n_fft=2048, hop_length=512, n_mels=128, fmin=0.0, fmax=None):
+def mel_spectrogram(
+    signal,
+    sr,
+    n_fft=2048,
+    hop_length=512,
+    n_mels=128,
+    fmin=0.0,
+    fmax=None,
+    center=True,
+    pad_mode="constant"
+):
     """计算 Mel 频谱。
 
     Parameters
@@ -112,32 +140,39 @@ def mel_spectrogram(signal, sr, n_fft=2048, hop_length=512, n_mels=128, fmin=0.0
         最低频率（Hz）。
     fmax : float or None, optional
         最高频率（Hz），默认 ``sr / 2``。
+    center : bool, optional
+        是否在帧中心对齐。
+    pad_mode : str, optional
+        边界填充模式。
 
     Returns
     -------
     ndarray
-        Mel 频谱，形状为 ``(n_mels, n_frames)``。
+        Mel 频谱，形状为 ``(n_frames, n_mels)``。
 
     Raises
     ------
     ValueError
         输入维度或参数非法时抛出。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if sr <= 0:
         raise ValueError("sr must be > 0")
 
-    return librosa.feature.melspectrogram(
+    mel = librosa.feature.melspectrogram(
         y=signal,
         sr=sr,
         n_fft=n_fft,
         hop_length=hop_length,
         n_mels=n_mels,
         fmin=fmin,
-        fmax=fmax
+        fmax=fmax,
+        center=center,
+        pad_mode=pad_mode
     )
+    return to_feature_matrix(mel, frame_axis=1)
 
 
 def formant_frequencies(signal, sr, order=12, n_formants=4):
@@ -168,7 +203,7 @@ def formant_frequencies(signal, sr, order=12, n_formants=4):
     -----
     LPC 共振峰估计对噪声敏感，结果仅供近似分析。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if sr <= 0:
@@ -184,7 +219,7 @@ def formant_frequencies(signal, sr, order=12, n_formants=4):
     if frames.size == 0:
         return np.empty((0, n_formants))
 
-    formants = np.zeros((frames.shape[0], n_formants), dtype=float)
+    formants = np.zeros((frames.shape[0], n_formants), dtype=np.float32)
     for i, frame in enumerate(frames):
         frame = frame - np.mean(frame)
         if np.allclose(frame, 0.0):

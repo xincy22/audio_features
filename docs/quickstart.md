@@ -17,4 +17,6 @@ zcr = zero_crossing_rate(signal)
 print(mfccs.shape, centroid.shape, zcr.shape)
 ```
 
+所有帧级特征统一输出 `(n_frames, n_features)`，例如 `mfcc` 形状为 `(n_frames, n_mfcc)`。
+
 如果你想一次性提取多个特征并聚合为固定长度向量，请参考 [使用指南](guide.md)。

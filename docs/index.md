@@ -28,6 +28,7 @@ AudioFeatures 是一个轻量级的 Python 音频处理工具包，覆盖音频�
 - `audiofeatures.pipeline`: 特征提取与聚合流程
 - `audiofeatures.utils`: 频率/音符转换与 I/O
 - `audiofeatures.visualization`: 常用图表绘制
+- `audiofeatures.utils.contract`: float32 与特征矩阵约定
 
 ## 快速示例
 
@@ -43,6 +44,11 @@ mfccs = mfcc(signal, sr=sr, n_mfcc=13)
 centroid = spectral_centroid(signal, sr=sr)
 print(mfccs.shape, centroid.shape)
 ```
+
+## 契约说明
+
+- 音频输入统一 `float32`（推荐范围 `[-1, 1]`）
+- 帧级特征统一输出 `(n_frames, n_features)`
 
 ## 文档构建
 

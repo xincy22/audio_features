@@ -2,6 +2,18 @@
 
 本指南以完整流程为主线：加载 -> 预处理 -> 特征 -> 聚合 -> 保存 -> 可视化/增强。
 
+## 0. 输出约定
+
+- 音频数组统一使用 `float32`，推荐范围 `[-1, 1]`（必要时可 `ensure_float32(..., clip=True)`）
+- 帧级特征统一输出 `(n_frames, n_features)`
+- Pipeline 不会自动重采样，确保输入采样率与 `FeatureExtractor.sr` 一致
+
+```python
+from audiofeatures.utils import ensure_float32
+
+signal = ensure_float32(signal, clip=True)
+```
+
 ## 1. 加载音频
 
 ```python
@@ -70,9 +82,12 @@ mfccs = mfcc(signal, sr=sr, n_mfcc=13)
 mel = mel_spectrogram(signal, sr=sr)
 ```
 
+这些特征均返回 `(n_frames, n_features)` 的矩阵。
+
 ## 4. 使用 Pipeline
 
 `FeatureExtractor` 可以一次提取多种特征，`FeatureAggregator` 负责聚合为固定长度向量。
+`FeatureExtractor` 不会自动重采样，直接传入信号时请确保采样率与 `extractor.sr` 一致。
 
 ```python
 from audiofeatures.pipeline import FeatureExtractor, FeatureAggregator
@@ -125,3 +140,30 @@ fig.savefig("spectrogram.png")
 - `frame_length` 与 `hop_length` 通常使用 2048/512 或 1024/256 组合
 - `sr` 建议与模型或任务需求一致
 - 归一化在特征提取前完成更稳妥
+
+## 9. 批量提取（CSV）
+
+```python
+import csv
+import numpy as np
+from audiofeatures.utils import load_audio
+from audiofeatures.pipeline import FeatureExtractor, FeatureAggregator
+
+audio_files = ["a.wav", "b.wav"]
+extractor = FeatureExtractor(sr=16000)
+aggregator = FeatureAggregator()
+
+rows = []
+for path in audio_files:
+    signal, _ = load_audio(path, sr=extractor.sr)
+    frame_features = extractor.extract_features(signal, ["mfcc", "spectral_centroid", "zcr"])
+    summary = aggregator.aggregate_features(frame_features, ["mean", "std"])
+    flat = {key: np.asarray(value).flatten() for key, value in summary.items()}
+    flat["path"] = path
+    rows.append(flat)
+
+with open("features.csv", "w", newline="", encoding="utf-8") as f:
+    writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+    writer.writeheader()
+    writer.writerows(rows)
+```

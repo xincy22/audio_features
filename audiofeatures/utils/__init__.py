@@ -8,6 +8,7 @@ from .conversion import (
     seconds_to_samples,
     samples_to_seconds
 )
+from .contract import ensure_float32, to_feature_matrix
 from .io import load_audio, save_audio, save_features, load_features
 
 __all__ = [
@@ -17,6 +18,8 @@ __all__ = [
     "note_to_hz",
     "seconds_to_samples",
     "samples_to_seconds",
+    "ensure_float32",
+    "to_feature_matrix",
     "load_audio",
     "save_audio",
     "save_features",

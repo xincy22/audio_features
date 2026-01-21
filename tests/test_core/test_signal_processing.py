@@ -1,5 +1,4 @@
 import unittest
-import os
 import numpy as np
 from audiofeatures.core.signal_processing import frame_signal, apply_window
 

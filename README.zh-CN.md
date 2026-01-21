@@ -19,6 +19,8 @@ AudioFeatures 是一个轻量级的 Python 音频工具包，覆盖音频预处�
 支持 Python: 3.9 - 3.13。
 
 ```bash
+pip install audio-features
+# 或
 pip install audio_features
 ```
 
@@ -45,6 +47,8 @@ centroid = spectral_centroid(signal, sr=sr)
 
 print(mfccs.shape, centroid.shape)
 ```
+
+帧级特征统一输出 `(n_frames, n_features)`，dtype 为 `float32`。
 
 ## 流水线示例
 
@@ -73,7 +77,7 @@ print(summary.keys())
 ## 测试
 
 ```bash
-python -m unittest discover -s tests
+python -m pytest
 ```
 
 ## 许可证

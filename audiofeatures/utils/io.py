@@ -4,6 +4,7 @@ import numpy as np
 import soundfile as sf
 
 from audiofeatures.core.audio_loader import load_audio as core_load_audio
+from audiofeatures.utils.contract import ensure_float32
 
 
 def load_audio(file_path, sr=None, mono=True):
@@ -21,7 +22,8 @@ def load_audio(file_path, sr=None, mono=True):
     Returns
     -------
     tuple
-        ``(signal, sr)``。
+        ``(signal, sr)``。``mono=True`` 时 ``signal`` 为一维数组，
+        ``mono=False`` 时形状为 ``(channels, samples)``，dtype 为 ``float32``。
 
     Notes
     -----
@@ -47,7 +49,7 @@ def save_audio(signal, sr, file_path):
     ValueError
         输入非法时抛出。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if sr <= 0:

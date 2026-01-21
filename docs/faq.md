@@ -9,10 +9,10 @@
 当信号长度小于 `frame_length` 时，分帧类函数会返回空结果。检查音频长度，
 或降低 `frame_length`。
 
-## 3. 为什么有些特征是二维，有些是一维
+## 3. 为什么所有特征都是二维
 
-如 `mfcc` 返回 `(n_mfcc, n_frames)`，而 `spectral_centroid` 返回 `(n_frames,)`。
-聚合时请使用 `FeatureAggregator`，它会自动按特征维度做统计。
+为了避免下游处理混乱，所有帧级特征统一输出 `(n_frames, n_features)`，即使只有一个
+维度也会返回 `(n_frames, 1)`。这样在拼接或聚合时更稳定。
 
 ## 4. 过零率/能量结果和预期差异较大
 

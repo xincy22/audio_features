@@ -13,15 +13,17 @@ class TestStatisticalFeatures(unittest.TestCase):
     def test_signal_statistics(self):
         stats = signal_statistics(self.signal, frame_length=400, hop_length=160)
         self.assertIn("mean", stats)
-        lengths = [len(value) for value in stats.values()]
-        self.assertTrue(all(length == lengths[0] for length in lengths))
+        shapes = [value.shape for value in stats.values()]
+        self.assertTrue(all(shape == shapes[0] for shape in shapes))
+        self.assertEqual(shapes[0][1], 1)
 
     def test_spectral_statistics(self):
         spec = power_spectrum(self.signal, n_fft=512, hop_length=256)
         stats = spectral_statistics(spec, sr=self.sr, n_fft=512)
         self.assertIn("centroid", stats)
-        lengths = [len(value) for value in stats.values()]
-        self.assertTrue(all(length == lengths[0] for length in lengths))
+        shapes = [value.shape for value in stats.values()]
+        self.assertTrue(all(shape == shapes[0] for shape in shapes))
+        self.assertEqual(shapes[0][1], 1)
 
 
 if __name__ == "__main__":

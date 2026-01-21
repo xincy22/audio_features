@@ -92,6 +92,7 @@ def plot_energy(signal, sr, frame_length=2048, hop_length=512, title="Signal Ene
         raise ValueError("sr must be > 0")
 
     energy_values = energy_feature(signal, frame_length=frame_length, hop_length=hop_length)
+    energy_values = np.asarray(energy_values).reshape(-1)
     times = np.arange(energy_values.size) * (hop_length / float(sr))
 
     if ax is None:
@@ -153,6 +154,7 @@ def plot_zero_crossing_rate(
         raise ValueError("sr must be > 0")
 
     zcr_values = zcr_feature(signal, frame_length=frame_length, hop_length=hop_length)
+    zcr_values = np.asarray(zcr_values).reshape(-1)
     times = np.arange(zcr_values.size) * (hop_length / float(sr))
 
     if ax is None:

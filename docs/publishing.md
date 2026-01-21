@@ -7,7 +7,7 @@
 - 确认版本号已更新（`pyproject.toml`）。
 - 更新 `CHANGELOG.md`。
 - 运行测试：
-  - `python -m unittest discover -s tests`
+  - `python -m pytest`
 - 构建包：
   - `python -m pip install -U build twine`
   - `python -m build`

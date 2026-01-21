@@ -1,6 +1,7 @@
 # API 参考
 
 以下 API 以模块分类，描述主要函数/类、参数含义与返回形状。
+除非特别说明，帧级特征统一输出 ``(n_frames, n_features)``，dtype 为 ``float32``。
 
 ## audiofeatures.core
 
@@ -8,6 +9,8 @@
 
 - 读取音频文件，返回 `(signal, sr)`
 - `sr=None` 表示保持原采样率
+- `mono=False` 时返回形状 `(channels, samples)`
+- 输出 dtype 为 `float32`
 - `offset` 与 `duration` 以秒为单位
 
 ### get_audio_info(file_path)
@@ -19,7 +22,7 @@
 
 - 输入必须是一维数组
 - 返回形状 `(n_frames, frame_length)`
-- 当信号长度不足一个帧时返回空数组
+- `center=True` 会在两端补零并通常至少返回一帧；`center=False` 且长度不足一帧时返回空数组
 
 ### apply_window(frames, window_type="hann")
 
@@ -44,43 +47,46 @@
 - `z_normalize(signal)`：Z-score 标准化
 - `min_max_normalize(signal, min_val=0.0, max_val=1.0)`：最小-最大归一化
 
-输入需为一维数组，数值接近零时会返回原始信号并发出警告。
+输入需为一维数组。RMS/峰值/标准差接近 0 时会返回原始信号并发出警告。
+
+`min_max_normalize` 在近似常数信号上返回常数数组并发出警告。
 
 ### segmentation
 
 - `segment_by_energy(signal, sr, threshold=0.05, min_length=0.1)`
 - `segment_by_zcr(signal, sr, threshold=0.2, min_length=0.1, frame_length=0.025, hop_length=0.010)`
 
+`segment_by_zcr` 的 `frame_length` 与 `hop_length` 以秒为单位。
 返回 `[(start_idx, end_idx), ...]`，单位为采样点索引。
 
 ## audiofeatures.features
 
 ### time_domain
 
-- `zero_crossing_rate(signal, frame_length=2048, hop_length=512)` -> `(n_frames,)`
-- `energy(signal, frame_length=2048, hop_length=512)` -> `(n_frames,)`
-- `log_energy(signal, frame_length=2048, hop_length=512, eps=1e-10)` -> `(n_frames,)`
-- `pitch(signal, sr, frame_length=2048, hop_length=512, method="autocorr")` -> `(n_frames,)`
+- `zero_crossing_rate(signal, frame_length=2048, hop_length=512)` -> `(n_frames, 1)`
+- `energy(signal, frame_length=2048, hop_length=512)` -> `(n_frames, 1)`
+- `log_energy(signal, frame_length=2048, hop_length=512, eps=1e-10)` -> `(n_frames, 1)`
+- `pitch(signal, sr, frame_length=2048, hop_length=512, method="autocorr")` -> `(n_frames, 1)`
 
 ### frequency_domain
 
-- `magnitude_spectrum(signal, n_fft=2048, hop_length=512, win_length=None, window="hann")` -> `(1+n_fft//2, n_frames)`
-- `power_spectrum(...)` -> `(1+n_fft//2, n_frames)`
-- `spectral_centroid(signal, sr, ...)` -> `(n_frames,)`
-- `spectral_bandwidth(signal, sr, ...)` -> `(n_frames,)`
-- `spectral_rolloff(signal, sr, ..., roll_percent=0.85)` -> `(n_frames,)`
+- `magnitude_spectrum(signal, n_fft=2048, hop_length=512, win_length=None, window="hann", center=True, pad_mode="constant")` -> `(n_frames, 1+n_fft//2)`
+- `power_spectrum(...)` -> `(n_frames, 1+n_fft//2)`
+- `spectral_centroid(signal, sr, ...)` -> `(n_frames, 1)`
+- `spectral_bandwidth(signal, sr, ...)` -> `(n_frames, 1)`
+- `spectral_rolloff(signal, sr, ..., roll_percent=0.85)` -> `(n_frames, 1)`
 
 ### spectral
 
-- `mfcc(signal, sr, n_mfcc=13, ...)` -> `(n_mfcc, n_frames)`
-- `delta_mfcc(mfcc_features, order=1, width=9)` -> `(n_mfcc, n_frames)`
-- `mel_spectrogram(signal, sr, n_mels=128, ...)` -> `(n_mels, n_frames)`
+- `mfcc(signal, sr, n_mfcc=13, ...)` -> `(n_frames, n_mfcc)`
+- `delta_mfcc(mfcc_features, order=1, width=9)` -> `(n_frames, n_mfcc)`
+- `mel_spectrogram(signal, sr, n_mels=128, ...)` -> `(n_frames, n_mels)`
 - `formant_frequencies(signal, sr, order=12, n_formants=4)` -> `(n_frames, n_formants)`
 
 ### statistical
 
-- `signal_statistics(signal, frame_length=2048, hop_length=512)` -> dict of `(n_frames,)`
-- `spectral_statistics(spectrogram, sr, n_fft=2048)` -> dict of `(n_frames,)`
+- `signal_statistics(signal, frame_length=2048, hop_length=512)` -> dict of `(n_frames, 1)`
+- `spectral_statistics(spectrogram, sr, n_fft=2048)` -> dict of `(n_frames, 1)`
 - `harmonic_percussive_ratio(signal, sr, margin=3.0, kernel_size=31)` -> float
 
 ## audiofeatures.augmentation
@@ -89,8 +95,8 @@
 
 - `time_stretch(signal, sr, rate=1.2)`：时间拉伸
 - `pitch_shift(signal, sr, n_steps=4)`：变调
-- `add_noise(signal, noise_level=0.005)`：加噪
-- `time_mask(signal, mask_fraction=0.1)`：时间掩码
+- `add_noise(signal, noise_level=0.005, rng=None, seed=None)`：加噪
+- `time_mask(signal, mask_fraction=0.1, rng=None, seed=None)`：时间掩码
 
 ### frequency_domain
 
@@ -103,7 +109,7 @@
 
 ### FeatureExtractor
 
-- `extract_features(signal, feature_types)`
+- `extract_features(signal, feature_types)`：输出 ``(n_frames, n_features)``
   - 支持 `mfcc`, `spectral_centroid`, `spectral_bandwidth`, `spectral_rolloff`,
     `zcr`, `rms`, `chroma`, `tonnetz`, `tempogram`
 - `extract_from_file(file_path, feature_types)`
@@ -129,6 +135,11 @@
 - `load_audio(file_path, sr=None, mono=True)`：包装 core.load_audio
 - `save_audio(signal, sr, file_path)`：保存为音频文件
 - `save_features(features, file_path)` / `load_features(file_path)`：保存/读取 npz
+
+### contract
+
+- `ensure_float32(signal, clip=False)`：转换为 float32，可选裁剪到 [-1, 1]
+- `to_feature_matrix(values, frame_axis=0)`：统一为 ``(n_frames, n_features)``
 
 ## audiofeatures.visualization
 

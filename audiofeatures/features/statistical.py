@@ -5,6 +5,7 @@ from scipy import stats
 import librosa
 
 from audiofeatures.core.signal_processing import frame_signal
+from audiofeatures.utils.contract import ensure_float32, to_feature_matrix
 
 
 def signal_statistics(signal, frame_length=2048, hop_length=512):
@@ -23,14 +24,15 @@ def signal_statistics(signal, frame_length=2048, hop_length=512):
     -------
     dict
         统计量字典，包含 ``mean``、``std``、``skewness``、``kurtosis``、
-        ``median``、``min``、``max``、``range``、``rms``。
+        ``median``、``min``、``max``、``range``、``rms``，每项形状为
+        ``(n_frames, 1)``。
 
     Raises
     ------
     ValueError
         输入维度或参数非法时抛出。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if frame_length <= 0:
@@ -40,16 +42,17 @@ def signal_statistics(signal, frame_length=2048, hop_length=512):
 
     frames = frame_signal(signal, frame_length=frame_length, hop_length=hop_length, center=True)
     if frames.size == 0:
+        empty = np.zeros((0, 1), dtype=np.float32)
         return {
-            "mean": np.array([]),
-            "std": np.array([]),
-            "skewness": np.array([]),
-            "kurtosis": np.array([]),
-            "median": np.array([]),
-            "min": np.array([]),
-            "max": np.array([]),
-            "range": np.array([]),
-            "rms": np.array([])
+            "mean": empty,
+            "std": empty,
+            "skewness": empty,
+            "kurtosis": empty,
+            "median": empty,
+            "min": empty,
+            "max": empty,
+            "range": empty,
+            "rms": empty
         }
 
     mean = np.mean(frames, axis=1)
@@ -63,15 +66,15 @@ def signal_statistics(signal, frame_length=2048, hop_length=512):
     rms = np.sqrt(np.mean(frames ** 2, axis=1))
 
     return {
-        "mean": mean,
-        "std": std,
-        "skewness": skewness,
-        "kurtosis": kurtosis,
-        "median": median,
-        "min": min_val,
-        "max": max_val,
-        "range": range_val,
-        "rms": rms
+        "mean": to_feature_matrix(mean),
+        "std": to_feature_matrix(std),
+        "skewness": to_feature_matrix(skewness),
+        "kurtosis": to_feature_matrix(kurtosis),
+        "median": to_feature_matrix(median),
+        "min": to_feature_matrix(min_val),
+        "max": to_feature_matrix(max_val),
+        "range": to_feature_matrix(range_val),
+        "rms": to_feature_matrix(rms)
     }
 
 
@@ -81,7 +84,7 @@ def spectral_statistics(spectrogram, sr, n_fft=2048):
     Parameters
     ----------
     spectrogram : ndarray
-        频谱矩阵，形状为 ``(1 + n_fft // 2, n_frames)``。
+        频谱矩阵，形状为 ``(n_frames, 1 + n_fft // 2)``。
     sr : int
         采样率（Hz）。
     n_fft : int, optional
@@ -91,39 +94,38 @@ def spectral_statistics(spectrogram, sr, n_fft=2048):
     -------
     dict
         频谱统计量字典，包含 ``centroid``、``bandwidth``、``flatness``、
-        ``rolloff``、``flux``、``contrast``。
+        ``rolloff``、``flux``、``contrast``，每项形状为 ``(n_frames, 1)``。
 
     Raises
     ------
     ValueError
         输入维度或参数非法时抛出。
     """
-    spectrogram = np.asarray(spectrogram)
-    if spectrogram.ndim != 2:
-        raise ValueError("spectrogram must be a 2D array")
+    spectrogram = to_feature_matrix(spectrogram, frame_axis=0)
     if sr <= 0:
         raise ValueError("sr must be > 0")
     if n_fft <= 0:
         raise ValueError("n_fft must be > 0")
 
-    centroid = librosa.feature.spectral_centroid(S=spectrogram, sr=sr)
-    bandwidth = librosa.feature.spectral_bandwidth(S=spectrogram, sr=sr, n_fft=n_fft)
-    flatness = librosa.feature.spectral_flatness(S=spectrogram)
-    rolloff = librosa.feature.spectral_rolloff(S=spectrogram, sr=sr)
+    spec = spectrogram.T
+    centroid = librosa.feature.spectral_centroid(S=spec, sr=sr)
+    bandwidth = librosa.feature.spectral_bandwidth(S=spec, sr=sr, n_fft=n_fft)
+    flatness = librosa.feature.spectral_flatness(S=spec)
+    rolloff = librosa.feature.spectral_rolloff(S=spec, sr=sr)
 
-    flux = np.sqrt(np.sum(np.diff(spectrogram, axis=1) ** 2, axis=0))
+    flux = np.sqrt(np.sum(np.diff(spectrogram, axis=0) ** 2, axis=1))
     flux = np.concatenate(([0.0], flux))
 
-    contrast = librosa.feature.spectral_contrast(S=spectrogram, sr=sr)
+    contrast = librosa.feature.spectral_contrast(S=spec, sr=sr)
     contrast_mean = np.mean(contrast, axis=0)
 
     return {
-        "centroid": centroid.flatten(),
-        "bandwidth": bandwidth.flatten(),
-        "flatness": flatness.flatten(),
-        "rolloff": rolloff.flatten(),
-        "flux": flux,
-        "contrast": contrast_mean
+        "centroid": to_feature_matrix(centroid, frame_axis=1),
+        "bandwidth": to_feature_matrix(bandwidth, frame_axis=1),
+        "flatness": to_feature_matrix(flatness, frame_axis=1),
+        "rolloff": to_feature_matrix(rolloff, frame_axis=1),
+        "flux": to_feature_matrix(flux),
+        "contrast": to_feature_matrix(contrast_mean)
     }
 
 
@@ -151,7 +153,7 @@ def harmonic_percussive_ratio(signal, sr, margin=3.0, kernel_size=31):
     ValueError
         输入维度或参数非法时抛出。
     """
-    signal = np.asarray(signal)
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("signal must be a 1D array")
     if sr <= 0:
@@ -168,4 +170,4 @@ def harmonic_percussive_ratio(signal, sr, margin=3.0, kernel_size=31):
     total = harmonic_energy + percussive_energy
     if total == 0:
         return 0.0
-    return harmonic_energy / total
+    return float(harmonic_energy / total)

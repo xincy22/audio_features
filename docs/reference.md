@@ -49,3 +49,5 @@
 ::: audiofeatures.utils.io
 
 ::: audiofeatures.utils.conversion
+
+::: audiofeatures.utils.contract

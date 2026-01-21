@@ -13,7 +13,8 @@ class FeatureAggregator:
         Parameters
         ----------
         features : dict
-            特征字典，键为特征名称，值为特征数组。
+            特征字典，键为特征名称，值为特征数组，形状为
+            ``(n_frames, n_features)``。
         aggregation_methods : list or tuple
             聚合方法列表，支持 ``mean``、``std``、``min``、``max``、``median``、
             ``skewness``、``kurtosis``、``range``、``quantile_25``、``quantile_75``。
@@ -21,7 +22,7 @@ class FeatureAggregator:
         Returns
         -------
         dict
-            聚合后的特征字典。
+            聚合后的特征字典，聚合结果按特征维度返回。
 
         Raises
         ------
@@ -39,32 +40,47 @@ class FeatureAggregator:
             if arr.ndim == 1:
                 axis = 0
             elif arr.ndim == 2:
-                axis = 1
+                axis = 0
             else:
                 raise ValueError("feature arrays must be 1D or 2D")
 
             for method in aggregation_methods:
                 key = f"{name}_{method}"
                 if method == "mean":
-                    aggregated[key] = np.mean(arr, axis=axis)
+                    aggregated[key] = np.asarray(np.mean(arr, axis=axis), dtype=np.float32)
                 elif method == "std":
-                    aggregated[key] = np.std(arr, axis=axis)
+                    aggregated[key] = np.asarray(np.std(arr, axis=axis), dtype=np.float32)
                 elif method == "min":
-                    aggregated[key] = np.min(arr, axis=axis)
+                    aggregated[key] = np.asarray(np.min(arr, axis=axis), dtype=np.float32)
                 elif method == "max":
-                    aggregated[key] = np.max(arr, axis=axis)
+                    aggregated[key] = np.asarray(np.max(arr, axis=axis), dtype=np.float32)
                 elif method == "median":
-                    aggregated[key] = np.median(arr, axis=axis)
+                    aggregated[key] = np.asarray(np.median(arr, axis=axis), dtype=np.float32)
                 elif method == "skewness":
-                    aggregated[key] = stats.skew(arr, axis=axis, bias=False)
+                    aggregated[key] = np.asarray(
+                        stats.skew(arr, axis=axis, bias=False),
+                        dtype=np.float32
+                    )
                 elif method == "kurtosis":
-                    aggregated[key] = stats.kurtosis(arr, axis=axis, bias=False)
+                    aggregated[key] = np.asarray(
+                        stats.kurtosis(arr, axis=axis, bias=False),
+                        dtype=np.float32
+                    )
                 elif method == "range":
-                    aggregated[key] = np.max(arr, axis=axis) - np.min(arr, axis=axis)
+                    aggregated[key] = np.asarray(
+                        np.max(arr, axis=axis) - np.min(arr, axis=axis),
+                        dtype=np.float32
+                    )
                 elif method == "quantile_25":
-                    aggregated[key] = np.quantile(arr, 0.25, axis=axis)
+                    aggregated[key] = np.asarray(
+                        np.quantile(arr, 0.25, axis=axis),
+                        dtype=np.float32
+                    )
                 elif method == "quantile_75":
-                    aggregated[key] = np.quantile(arr, 0.75, axis=axis)
+                    aggregated[key] = np.asarray(
+                        np.quantile(arr, 0.75, axis=axis),
+                        dtype=np.float32
+                    )
                 else:
                     raise ValueError(f"Unsupported aggregation method: {method}")
 
@@ -76,7 +92,8 @@ class FeatureAggregator:
         Parameters
         ----------
         features : dict
-            特征字典，键为特征名称，值为特征数组。
+            特征字典，键为特征名称，值为特征数组，形状为
+            ``(n_frames, n_features)``。
 
         Returns
         -------

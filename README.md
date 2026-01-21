@@ -22,6 +22,8 @@ AudioFeatures is a compact Python toolkit for audio preprocessing, feature extra
 Supported Python: 3.9 - 3.13.
 
 ```bash
+pip install audio-features
+# or
 pip install audio_features
 ```
 
@@ -48,6 +50,8 @@ centroid = spectral_centroid(signal, sr=sr)
 
 print(mfccs.shape, centroid.shape)
 ```
+
+Frame-level features always return `(n_frames, n_features)` with `float32` dtype.
 
 ## Pipeline Example
 
@@ -76,7 +80,7 @@ See `docs/index.md` for the full guide and API reference.
 ## Tests
 
 ```bash
-python -m unittest discover -s tests
+python -m pytest
 ```
 
 ## License

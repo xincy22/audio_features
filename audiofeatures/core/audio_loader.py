@@ -29,7 +29,8 @@ def load_audio(file_path, sr=None, mono=True, offset=0.0, duration=None):
     Returns
     -------
     tuple
-        ``(audio, sample_rate)``，其中 ``audio`` 为一维 ``ndarray``。
+        ``(audio, sample_rate)``。``mono=True`` 时 ``audio`` 为一维 ``ndarray``，
+        ``mono=False`` 时形状为 ``(channels, samples)``，dtype 为 ``float32``。
 
     Raises
     ------
@@ -54,9 +55,10 @@ def load_audio(file_path, sr=None, mono=True, offset=0.0, duration=None):
             sr=sr,
             mono=mono,
             offset=offset,
-            duration=duration
+            duration=duration,
+            dtype=np.float32
         )
-        return audio, sample_rate
+        return np.asarray(audio, dtype=np.float32), sample_rate
     except Exception as e:
         raise Exception(f"加载音频文件失败 '{file_path}': {str(e)}")
 

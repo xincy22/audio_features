@@ -3,6 +3,8 @@
 import numpy as np
 from scipy import signal as scipy_signal
 
+from audiofeatures.utils.contract import ensure_float32
+
 
 def frame_signal(signal, frame_length, hop_length, center=True):
     """将一维信号切分为重叠帧。
@@ -30,8 +32,9 @@ def frame_signal(signal, frame_length, hop_length, center=True):
 
     Notes
     -----
-    当信号长度不足一个帧时返回空数组。
+    当 ``center=False`` 且信号长度不足一个帧时返回空数组；``center=True`` 会在两端补零并至少返回一帧。
     """
+    signal = ensure_float32(signal)
     if signal.ndim != 1:
         raise ValueError("输入信号必须是一维数组")
     if frame_length <= 0:
@@ -43,9 +46,9 @@ def frame_signal(signal, frame_length, hop_length, center=True):
         pad_length = frame_length // 2
         signal = np.pad(signal, pad_length, mode="constant")
     if len(signal) < frame_length:
-        return np.zeros((0, frame_length))
+        return np.zeros((0, frame_length), dtype=signal.dtype)
     num_frames = (len(signal) - frame_length) // hop_length + 1
-    frames = np.zeros((num_frames, frame_length))
+    frames = np.zeros((num_frames, frame_length), dtype=signal.dtype)
 
     for i in range(num_frames):
         start = i * hop_length
@@ -84,13 +87,13 @@ def apply_window(frames, window_type="hann"):
     frame_length = frames.shape[1]
 
     if window_type == "rectangular":
-        window = np.ones(frame_length)
+        window = np.ones(frame_length, dtype=frames.dtype)
     elif window_type == "kaiser":
-        window = scipy_signal.windows.kaiser(frame_length, beta=14)
+        window = scipy_signal.windows.kaiser(frame_length, beta=14).astype(frames.dtype, copy=False)
     else:
         try:
             window_func = getattr(scipy_signal.windows, window_type)
-            window = window_func(frame_length)
+            window = window_func(frame_length).astype(frames.dtype, copy=False)
         except AttributeError:
             supported_windows = [
                 "hann", "hamming", "blackman",

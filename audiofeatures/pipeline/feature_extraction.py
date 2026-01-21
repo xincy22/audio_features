@@ -1,6 +1,5 @@
 """特征提取流水线。"""
 
-import numpy as np
 import librosa
 
 from audiofeatures.core.audio_loader import load_audio
@@ -11,6 +10,7 @@ from audiofeatures.features.frequency_domain import (
 )
 from audiofeatures.features.spectral import mfcc
 from audiofeatures.features.time_domain import zero_crossing_rate
+from audiofeatures.utils.contract import ensure_float32, to_feature_matrix
 
 
 class FeatureExtractor:
@@ -57,7 +57,7 @@ class FeatureExtractor:
         Parameters
         ----------
         signal : ndarray
-            一维输入信号。
+            一维输入信号，采样率应与 ``self.sr`` 一致。
         feature_types : list or tuple
             特征名称列表，支持 ``mfcc``、``spectral_centroid``、
             ``spectral_bandwidth``、``spectral_rolloff``、``zcr``、``rms``、
@@ -66,14 +66,15 @@ class FeatureExtractor:
         Returns
         -------
         dict
-            特征字典，键为特征名称，值为特征数组。
+            特征字典，键为特征名称，值为特征数组，形状为
+            ``(n_frames, n_features)``，dtype 为 ``float32``。
 
         Raises
         ------
         ValueError
             输入非法或特征名称不支持时抛出。
         """
-        signal = np.asarray(signal)
+        signal = ensure_float32(signal)
         if signal.ndim != 1:
             raise ValueError("signal must be a 1D array")
         if not isinstance(feature_types, (list, tuple)):
@@ -123,7 +124,7 @@ class FeatureExtractor:
                     frame_length=self.n_fft,
                     hop_length=self.hop_length
                 )
-                features[feature_type] = rms.flatten()
+                features[feature_type] = to_feature_matrix(rms, frame_axis=1)
             elif feature_type == "chroma":
                 chroma = librosa.feature.chroma_stft(
                     y=signal,
@@ -131,11 +132,11 @@ class FeatureExtractor:
                     n_fft=self.n_fft,
                     hop_length=self.hop_length
                 )
-                features[feature_type] = chroma
+                features[feature_type] = to_feature_matrix(chroma, frame_axis=1)
             elif feature_type == "tonnetz":
                 harmonic = librosa.effects.harmonic(signal)
                 tonnetz = librosa.feature.tonnetz(y=harmonic, sr=self.sr)
-                features[feature_type] = tonnetz
+                features[feature_type] = to_feature_matrix(tonnetz, frame_axis=1)
             elif feature_type == "tempogram":
                 onset_env = librosa.onset.onset_strength(
                     y=signal,
@@ -147,7 +148,7 @@ class FeatureExtractor:
                     sr=self.sr,
                     hop_length=self.hop_length
                 )
-                features[feature_type] = tempogram
+                features[feature_type] = to_feature_matrix(tempogram, frame_axis=1)
             else:
                 raise ValueError(f"Unsupported feature type: {feature_type}")
 
@@ -177,12 +178,12 @@ class FeatureExtractor:
         Parameters
         ----------
         signal : ndarray
-            一维输入信号。
+            一维输入信号，采样率应与 ``self.sr`` 一致。
 
         Returns
         -------
         dict
-            特征字典。
+            特征字典，值为 ``(n_frames, n_features)``。
         """
         feature_types = [
             "mfcc",

@@ -1,7 +1,8 @@
 """音频信号滤波工具。"""
 
-import numpy as np
 from scipy import signal as sci_signal
+
+from audiofeatures.utils.contract import ensure_float32
 
 
 def low_pass_filter(signal, sr, cutoff_freq, order=4):
@@ -28,6 +29,7 @@ def low_pass_filter(signal, sr, cutoff_freq, order=4):
     ValueError
         参数非法或超过奈奎斯特频率时抛出。
     """
+    signal = ensure_float32(signal)
     if sr <= 0:
         raise ValueError("sr must be > 0")
     if cutoff_freq <= 0:
@@ -39,7 +41,8 @@ def low_pass_filter(signal, sr, cutoff_freq, order=4):
         raise ValueError("cutoff_freq must be less than Nyquist frequency")
     normal_cutoff = cutoff_freq / nyquist
     b, a = sci_signal.butter(order, normal_cutoff, btype="low", analog=False)
-    return sci_signal.filtfilt(b, a, signal)
+    filtered = sci_signal.filtfilt(b, a, signal)
+    return filtered.astype(signal.dtype, copy=False)
 
 
 def high_pass_filter(signal, sr, cutoff_freq, order=4):
@@ -66,6 +69,7 @@ def high_pass_filter(signal, sr, cutoff_freq, order=4):
     ValueError
         参数非法或超过奈奎斯特频率时抛出。
     """
+    signal = ensure_float32(signal)
     if sr <= 0:
         raise ValueError("sr must be > 0")
     if cutoff_freq <= 0:
@@ -77,7 +81,8 @@ def high_pass_filter(signal, sr, cutoff_freq, order=4):
         raise ValueError("cutoff_freq must be less than Nyquist frequency")
     normal_cutoff = cutoff_freq / nyquist
     b, a = sci_signal.butter(order, normal_cutoff, btype="high", analog=False)
-    return sci_signal.filtfilt(b, a, signal)
+    filtered = sci_signal.filtfilt(b, a, signal)
+    return filtered.astype(signal.dtype, copy=False)
 
 
 def band_pass_filter(signal, sr, low_cutoff, high_cutoff, order=4):
@@ -106,6 +111,7 @@ def band_pass_filter(signal, sr, low_cutoff, high_cutoff, order=4):
     ValueError
         参数非法或超过奈奎斯特频率时抛出。
     """
+    signal = ensure_float32(signal)
     if sr <= 0:
         raise ValueError("sr must be > 0")
     if low_cutoff <= 0 or high_cutoff <= 0:
@@ -120,7 +126,8 @@ def band_pass_filter(signal, sr, low_cutoff, high_cutoff, order=4):
     low = low_cutoff / nyquist
     high = high_cutoff / nyquist
     b, a = sci_signal.butter(order, [low, high], btype="band", analog=False)
-    return sci_signal.filtfilt(b, a, signal)
+    filtered = sci_signal.filtfilt(b, a, signal)
+    return filtered.astype(signal.dtype, copy=False)
 
 
 def median_filter(signal, kernel_size=3):
@@ -143,6 +150,8 @@ def median_filter(signal, kernel_size=3):
     ValueError
         ``kernel_size`` 非正奇数时抛出。
     """
+    signal = ensure_float32(signal)
     if kernel_size <= 0 or kernel_size % 2 == 0:
         raise ValueError("kernel_size must be a positive odd integer")
-    return sci_signal.medfilt(signal, kernel_size=kernel_size)
+    filtered = sci_signal.medfilt(signal, kernel_size=kernel_size)
+    return filtered.astype(signal.dtype, copy=False)

@@ -8,13 +8,14 @@ class TestTimeDomainFeatures(unittest.TestCase):
     def test_zero_crossing_rate(self):
         signal = np.array([1, -1, 1, -1, 1, -1], dtype=float)
         zcr = zero_crossing_rate(signal, frame_length=4, hop_length=2)
-        self.assertEqual(zcr.ndim, 1)
+        self.assertEqual(zcr.ndim, 2)
+        self.assertEqual(zcr.shape[1], 1)
         self.assertTrue(np.all(zcr >= 0))
         self.assertTrue(np.all(zcr <= 1))
 
     def test_energy_and_log_energy(self):
         signal = np.array([1.0, 2.0, 3.0, 4.0])
-        expected = np.array([1.0**2 + 2.0**2, 2.0**2 + 3.0**2, 3.0**2 + 4.0**2])
+        expected = np.array([1.0**2 + 2.0**2, 2.0**2 + 3.0**2, 3.0**2 + 4.0**2]).reshape(-1, 1)
         values = energy(signal, frame_length=2, hop_length=1)
         np.testing.assert_allclose(values, expected)
         log_values = log_energy(signal, frame_length=2, hop_length=1, eps=1e-10)

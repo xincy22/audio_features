@@ -21,7 +21,7 @@ class TestFrequencyDomainFeatures(unittest.TestCase):
         hop_length = 128
         mag = magnitude_spectrum(self.signal, n_fft=n_fft, hop_length=hop_length)
         power = power_spectrum(self.signal, n_fft=n_fft, hop_length=hop_length)
-        self.assertEqual(mag.shape[0], 1 + n_fft // 2)
+        self.assertEqual(mag.shape[1], 1 + n_fft // 2)
         self.assertEqual(power.shape, mag.shape)
         np.testing.assert_allclose(power, mag ** 2)
 
@@ -29,9 +29,10 @@ class TestFrequencyDomainFeatures(unittest.TestCase):
         centroid = spectral_centroid(self.signal, sr=self.sr, n_fft=1024, hop_length=512)
         bandwidth = spectral_bandwidth(self.signal, sr=self.sr, n_fft=1024, hop_length=512)
         rolloff = spectral_rolloff(self.signal, sr=self.sr, n_fft=1024, hop_length=512)
-        self.assertEqual(centroid.ndim, 1)
-        self.assertEqual(bandwidth.ndim, 1)
-        self.assertEqual(rolloff.ndim, 1)
+        self.assertEqual(centroid.ndim, 2)
+        self.assertEqual(bandwidth.ndim, 2)
+        self.assertEqual(rolloff.ndim, 2)
+        self.assertEqual(centroid.shape[1], 1)
         self.assertEqual(centroid.shape, bandwidth.shape)
         self.assertEqual(centroid.shape, rolloff.shape)
 
