@@ -3,7 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/audio_features.svg)](https://pypi.org/project/audio_features/)
 [![Python versions](https://img.shields.io/pypi/pyversions/audio_features.svg)](https://pypi.org/project/audio_features/)
 
-[English](README.md) | [中文](README.zh-CN.md)
+**GitHub Repository**: [https://github.com/xincy22/audio_features](https://github.com/xincy22/audio_features)
 
 AudioFeatures is a compact Python toolkit for audio preprocessing, feature extraction, augmentation, and visualization. It exposes a clean API built on top of NumPy, SciPy, and librosa so you can go from waveform to features quickly.
 
@@ -71,7 +71,7 @@ print(summary.keys())
 
 ## Documentation
 
-See `docs/index.md` for the full guide and API reference.
+See [GitHub documentation](https://github.com/xincy22/audio_features/tree/main/docs) for the full guide and API reference.
 
 ## Tests
 
@@ -81,4 +81,4 @@ python -m unittest discover -s tests
 
 ## License
 
-MIT License. See LICENSE.
+MIT License. See [LICENSE](https://github.com/xincy22/audio_features/blob/main/LICENSE).

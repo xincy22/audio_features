@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "audio_features"
 version = "0.2.0"
 description = "Audio feature extraction, preprocessing, augmentation, and visualization utilities."
-readme = "README.md"
+readme = "README_PYPI.md"
 requires-python = ">=3.9,<3.14"
 license = "MIT"
 license-files = ["LICENSE"]
