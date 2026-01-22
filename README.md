@@ -72,6 +72,7 @@ print(summary.keys())
 
 - MP3 decoding depends on system backends (e.g., ffmpeg). If MP3 loading fails, install ffmpeg or use WAV/FLAC inputs.
 - Visualization helpers require `matplotlib`.
+- Release status: v0.2.0 is the first usable release; new changes will target v0.2.1.
 
 ## Documentation
 

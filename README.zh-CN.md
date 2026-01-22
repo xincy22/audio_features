@@ -69,6 +69,7 @@ print(summary.keys())
 
 - MP3 解码依赖系统后端（例如 ffmpeg）。若加载 MP3 失败，请安装 ffmpeg 或改用 WAV/FLAC。
 - 可视化功能需要 `matplotlib`。
+- 发布说明：v0.2.0 作为第一个可用版本归档，后续改动进入 v0.2.1。
 
 ## 文档
 
