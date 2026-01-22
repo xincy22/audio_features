@@ -1,7 +1,7 @@
 # AudioFeatures
 
-[![PyPI version](https://img.shields.io/pypi/v/audio_features.svg)](https://pypi.org/project/audio_features/)
-[![Python versions](https://img.shields.io/pypi/pyversions/audio_features.svg)](https://pypi.org/project/audio_features/)
+[![TestPyPI version](https://img.shields.io/pypi/v/audio_features?label=TestPyPI&pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://test.pypi.org/project/audio_features/)
+[![Python versions](https://img.shields.io/pypi/pyversions/audio_features?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://test.pypi.org/project/audio_features/)
 
 **GitHub Repository**: [https://github.com/xincy22/audio_features](https://github.com/xincy22/audio_features)
 
@@ -75,6 +75,8 @@ print(summary.keys())
 - Release status: v0.2.0 is the first usable release; new changes will target v0.2.1.
 
 ## Documentation
+
+Documentation site: https://xincy22.github.io/audio_features/
 
 See [GitHub documentation](https://github.com/xincy22/audio_features/tree/main/docs) for the full guide and API reference.
 

@@ -1,5 +1,8 @@
 # AudioFeatures
 
+[![TestPyPI version](https://img.shields.io/pypi/v/audio_features?label=TestPyPI&pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://test.pypi.org/project/audio_features/)
+[![Python versions](https://img.shields.io/pypi/pyversions/audio_features?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://test.pypi.org/project/audio_features/)
+
 [English](README.md) | [中文](README.zh-CN.md)
 
 AudioFeatures 是一个轻量级的 Python 音频工具包，覆盖音频预处理、特征提取、增强与可视化。基于 NumPy、SciPy 与 librosa，提供简洁易用的 API，方便你快速从波形获取特征。
@@ -72,6 +75,8 @@ print(summary.keys())
 - 发布说明：v0.2.0 作为第一个可用版本归档，后续改动进入 v0.2.1。
 
 ## 文档
+
+文档站点: https://xincy22.github.io/audio_features/
 
 完整使用与 API 参考见 `docs/index.md`。
 

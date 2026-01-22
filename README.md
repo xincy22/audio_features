@@ -78,6 +78,8 @@ print(summary.keys())
 
 ## Documentation
 
+Documentation site: https://xincy22.github.io/audio_features/
+
 See `docs/index.md` for the full guide and API reference.
 
 ## Tests
