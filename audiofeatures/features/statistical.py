@@ -57,8 +57,9 @@ def signal_statistics(signal, frame_length=2048, hop_length=512):
 
     mean = np.mean(frames, axis=1)
     std = np.std(frames, axis=1)
-    skewness = stats.skew(frames, axis=1, bias=False)
-    kurtosis = stats.kurtosis(frames, axis=1, bias=False)
+    frames_stats = frames.astype(np.float64, copy=False)
+    skewness = stats.skew(frames_stats, axis=1, bias=False)
+    kurtosis = stats.kurtosis(frames_stats, axis=1, bias=False)
     median = np.median(frames, axis=1)
     min_val = np.min(frames, axis=1)
     max_val = np.max(frames, axis=1)
