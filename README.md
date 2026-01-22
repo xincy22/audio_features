@@ -2,8 +2,8 @@
 
 # AudioFeatures
 
-[![TestPyPI version](https://img.shields.io/testpypi/v/audio_features.svg?label=TestPyPI)](https://test.pypi.org/project/audio_features/)
-[![Python versions](https://img.shields.io/pypi/pyversions/audio_features.svg)](https://test.pypi.org/project/audio_features/)
+[![TestPyPI version](https://img.shields.io/pypi/v/audio_features?label=TestPyPI&pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://test.pypi.org/project/audio_features/)
+[![Python versions](https://img.shields.io/pypi/pyversions/audio_features?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://test.pypi.org/project/audio_features/)
 
 [English](README.md) | [中文](README.zh-CN.md)
 
