@@ -1,0 +1,1320 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../guide/">
+      
+      
+        <link rel="next" href="../reference/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>API 概览 - Audio Features</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Audio Features" class="md-header__button md-logo" aria-label="Audio Features" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Audio Features
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API 概览
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Audio Features" class="md-nav__button md-logo" aria-label="Audio Features" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Audio Features
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../publishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    发布指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速上手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 概览
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturescore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.core
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load_audiofile_path-srnone-monotrue-offset00-durationnone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_audio(file_path, sr=None, mono=True, offset=0.0, duration=None)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_audio_infofile_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_audio_info(file_path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frame_signalsignal-frame_length-hop_length-centertrue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frame_signal(signal, frame_length, hop_length, center=True)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply_windowframes-window_typehann" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apply_window(frames, window_type="hann")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturespreprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.preprocessing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.preprocessing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        segmentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturesfeatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time_domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        time_domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency_domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frequency_domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spectral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        spectral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statistical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        statistical
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturesaugmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.augmentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.augmentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time_domain_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        time_domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency_domain_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frequency_domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturespipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#featureextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FeatureExtractor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#featureaggregator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FeatureAggregator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturesutils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.utils
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.utils">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        conversion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        io
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturesvisualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.visualization
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturescore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.core
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load_audiofile_path-srnone-monotrue-offset00-durationnone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_audio(file_path, sr=None, mono=True, offset=0.0, duration=None)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_audio_infofile_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_audio_info(file_path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frame_signalsignal-frame_length-hop_length-centertrue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frame_signal(signal, frame_length, hop_length, center=True)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply_windowframes-window_typehann" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apply_window(frames, window_type="hann")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturespreprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.preprocessing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.preprocessing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        segmentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturesfeatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time_domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        time_domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency_domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frequency_domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spectral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        spectral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statistical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        statistical
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturesaugmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.augmentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.augmentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time_domain_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        time_domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency_domain_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frequency_domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturespipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#featureextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FeatureExtractor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#featureaggregator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FeatureAggregator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturesutils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.utils
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audiofeatures.utils">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        conversion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        io
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audiofeaturesvisualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audiofeatures.visualization
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="api">API 参考</h1>
+<p>以下 API 以模块分类，描述主要函数/类、参数含义与返回形状。
+除非特别说明，帧级特征统一输出 <code>(n_frames, n_features)</code>，dtype 为 <code>float32</code>。</p>
+<h2 id="audiofeaturescore">audiofeatures.core</h2>
+<h3 id="load_audiofile_path-srnone-monotrue-offset00-durationnone">load_audio(file_path, sr=None, mono=True, offset=0.0, duration=None)</h3>
+<ul>
+<li>读取音频文件，返回 <code>(signal, sr)</code></li>
+<li><code>sr=None</code> 表示保持原采样率</li>
+<li><code>mono=False</code> 时返回形状 <code>(channels, samples)</code></li>
+<li>输出 dtype 为 <code>float32</code></li>
+<li><code>offset</code> 与 <code>duration</code> 以秒为单位</li>
+</ul>
+<h3 id="get_audio_infofile_path">get_audio_info(file_path)</h3>
+<ul>
+<li>返回字典：<code>sr</code>, <code>channels</code>, <code>duration</code>, <code>samples</code>, <code>bit_depth</code>, <code>format</code></li>
+<li>MP3 没有位深度信息</li>
+</ul>
+<h3 id="frame_signalsignal-frame_length-hop_length-centertrue">frame_signal(signal, frame_length, hop_length, center=True)</h3>
+<ul>
+<li>输入必须是一维数组</li>
+<li>返回形状 <code>(n_frames, frame_length)</code></li>
+<li><code>center=True</code> 会在两端补零并通常至少返回一帧；<code>center=False</code> 且长度不足一帧时返回空数组</li>
+</ul>
+<h3 id="apply_windowframes-window_typehann">apply_window(frames, window_type="hann")</h3>
+<ul>
+<li>输入必须是二维数组</li>
+<li>支持 <code>hann</code>, <code>hamming</code>, <code>blackman</code>, <code>bartlett</code>, <code>kaiser</code>, <code>rectangular</code></li>
+</ul>
+<h2 id="audiofeaturespreprocessing">audiofeatures.preprocessing</h2>
+<h3 id="filtering">filtering</h3>
+<ul>
+<li><code>low_pass_filter(signal, sr, cutoff_freq, order=4)</code></li>
+<li><code>high_pass_filter(signal, sr, cutoff_freq, order=4)</code></li>
+<li><code>band_pass_filter(signal, sr, low_cutoff, high_cutoff, order=4)</code></li>
+<li><code>median_filter(signal, kernel_size=3)</code></li>
+</ul>
+<p>以上滤波器均为巴特沃斯实现，截止频率必须小于奈奎斯特频率。</p>
+<h3 id="normalization">normalization</h3>
+<ul>
+<li><code>normalize_amplitude(signal, target_dBFS=-20.0)</code>：目标 dBFS 归一化</li>
+<li><code>peak_normalize(signal, target_peak=0.95)</code>：峰值归一化</li>
+<li><code>z_normalize(signal)</code>：Z-score 标准化</li>
+<li><code>min_max_normalize(signal, min_val=0.0, max_val=1.0)</code>：最小-最大归一化</li>
+</ul>
+<p>输入需为一维数组。RMS/峰值/标准差接近 0 时会返回原始信号并发出警告。</p>
+<p><code>min_max_normalize</code> 在近似常数信号上返回常数数组并发出警告。</p>
+<h3 id="segmentation">segmentation</h3>
+<ul>
+<li><code>segment_by_energy(signal, sr, threshold=0.05, min_length=0.1)</code></li>
+<li><code>segment_by_zcr(signal, sr, threshold=0.2, min_length=0.1, frame_length=0.025, hop_length=0.010)</code></li>
+</ul>
+<p><code>segment_by_zcr</code> 的 <code>frame_length</code> 与 <code>hop_length</code> 以秒为单位。
+返回 <code>[(start_idx, end_idx), ...]</code>，单位为采样点索引。</p>
+<h2 id="audiofeaturesfeatures">audiofeatures.features</h2>
+<h3 id="time_domain">time_domain</h3>
+<ul>
+<li><code>zero_crossing_rate(signal, frame_length=2048, hop_length=512)</code> -&gt; <code>(n_frames, 1)</code></li>
+<li><code>energy(signal, frame_length=2048, hop_length=512)</code> -&gt; <code>(n_frames, 1)</code></li>
+<li><code>log_energy(signal, frame_length=2048, hop_length=512, eps=1e-10)</code> -&gt; <code>(n_frames, 1)</code></li>
+<li><code>pitch(signal, sr, frame_length=2048, hop_length=512, method="autocorr")</code> -&gt; <code>(n_frames, 1)</code></li>
+</ul>
+<h3 id="frequency_domain">frequency_domain</h3>
+<ul>
+<li><code>magnitude_spectrum(signal, n_fft=2048, hop_length=512, win_length=None, window="hann", center=True, pad_mode="constant")</code> -&gt; <code>(n_frames, 1+n_fft//2)</code></li>
+<li><code>power_spectrum(...)</code> -&gt; <code>(n_frames, 1+n_fft//2)</code></li>
+<li><code>spectral_centroid(signal, sr, ...)</code> -&gt; <code>(n_frames, 1)</code></li>
+<li><code>spectral_bandwidth(signal, sr, ...)</code> -&gt; <code>(n_frames, 1)</code></li>
+<li><code>spectral_rolloff(signal, sr, ..., roll_percent=0.85)</code> -&gt; <code>(n_frames, 1)</code></li>
+</ul>
+<h3 id="spectral">spectral</h3>
+<ul>
+<li><code>mfcc(signal, sr, n_mfcc=13, ...)</code> -&gt; <code>(n_frames, n_mfcc)</code></li>
+<li><code>delta_mfcc(mfcc_features, order=1, width=9)</code> -&gt; <code>(n_frames, n_mfcc)</code></li>
+<li><code>mel_spectrogram(signal, sr, n_mels=128, ...)</code> -&gt; <code>(n_frames, n_mels)</code></li>
+<li><code>formant_frequencies(signal, sr, order=12, n_formants=4)</code> -&gt; <code>(n_frames, n_formants)</code></li>
+</ul>
+<h3 id="statistical">statistical</h3>
+<ul>
+<li><code>signal_statistics(signal, frame_length=2048, hop_length=512)</code> -&gt; dict of <code>(n_frames, 1)</code></li>
+<li><code>spectral_statistics(spectrogram, sr, n_fft=2048)</code> -&gt; dict of <code>(n_frames, 1)</code></li>
+<li><code>harmonic_percussive_ratio(signal, sr, margin=3.0, kernel_size=31)</code> -&gt; float</li>
+</ul>
+<h2 id="audiofeaturesaugmentation">audiofeatures.augmentation</h2>
+<h3 id="time_domain_1">time_domain</h3>
+<ul>
+<li><code>time_stretch(signal, sr, rate=1.2)</code>：时间拉伸</li>
+<li><code>pitch_shift(signal, sr, n_steps=4)</code>：变调</li>
+<li><code>add_noise(signal, noise_level=0.005, rng=None, seed=None)</code>：加噪</li>
+<li><code>time_mask(signal, mask_fraction=0.1, rng=None, seed=None)</code>：时间掩码</li>
+</ul>
+<h3 id="frequency_domain_1">frequency_domain</h3>
+<ul>
+<li><code>spectral_contrast(signal, sr, enhancement_factor=5.0, n_fft=2048, hop_length=512)</code></li>
+<li><code>harmonic_enhancement(signal, sr, enhancement_factor=2.0)</code></li>
+<li><code>spectral_inversion(signal)</code>：反相</li>
+<li><code>frequency_mask(signal, sr, mask_start, mask_width, n_fft=2048, hop_length=512)</code></li>
+</ul>
+<h2 id="audiofeaturespipeline">audiofeatures.pipeline</h2>
+<h3 id="featureextractor">FeatureExtractor</h3>
+<ul>
+<li><code>extract_features(signal, feature_types)</code>：输出 <code>(n_frames, n_features)</code></li>
+<li>支持 <code>mfcc</code>, <code>spectral_centroid</code>, <code>spectral_bandwidth</code>, <code>spectral_rolloff</code>,
+    <code>zcr</code>, <code>rms</code>, <code>chroma</code>, <code>tonnetz</code>, <code>tempogram</code></li>
+<li><code>extract_from_file(file_path, feature_types)</code></li>
+<li><code>extract_all_features(signal)</code></li>
+</ul>
+<h3 id="featureaggregator">FeatureAggregator</h3>
+<ul>
+<li><code>aggregate_features(features, aggregation_methods)</code></li>
+<li>支持 <code>mean</code>, <code>std</code>, <code>min</code>, <code>max</code>, <code>median</code>, <code>skewness</code>, <code>kurtosis</code>,
+    <code>range</code>, <code>quantile_25</code>, <code>quantile_75</code></li>
+<li><code>aggregate_statistics(features)</code>：返回分组后的统计字典</li>
+</ul>
+<h2 id="audiofeaturesutils">audiofeatures.utils</h2>
+<h3 id="conversion">conversion</h3>
+<ul>
+<li><code>hz_to_mel(frequencies)</code> / <code>mel_to_hz(mels)</code></li>
+<li><code>hz_to_note(frequency)</code> / <code>note_to_hz(note)</code></li>
+<li><code>seconds_to_samples(seconds, sr)</code> / <code>samples_to_seconds(samples, sr)</code></li>
+</ul>
+<h3 id="io">io</h3>
+<ul>
+<li><code>load_audio(file_path, sr=None, mono=True)</code>：包装 core.load_audio</li>
+<li><code>save_audio(signal, sr, file_path)</code>：保存为音频文件</li>
+<li><code>save_features(features, file_path)</code> / <code>load_features(file_path)</code>：保存/读取 npz</li>
+</ul>
+<h3 id="contract">contract</h3>
+<ul>
+<li><code>ensure_float32(signal, clip=False)</code>：转换为 float32，可选裁剪到 [-1, 1]</li>
+<li><code>to_feature_matrix(values, frame_axis=0)</code>：统一为 <code>(n_frames, n_features)</code></li>
+</ul>
+<h2 id="audiofeaturesvisualization">audiofeatures.visualization</h2>
+<p>需要安装 <code>matplotlib</code>。</p>
+<ul>
+<li><code>plot_waveform(signal, sr, ...)</code></li>
+<li><code>plot_energy(signal, sr, ...)</code></li>
+<li><code>plot_zero_crossing_rate(signal, sr, ...)</code></li>
+<li><code>plot_spectrogram(signal, sr, ...)</code></li>
+<li><code>plot_mel_spectrogram(signal, sr, ...)</code></li>
+<li><code>plot_mfcc(signal, sr, ...)</code></li>
+<li><code>plot_chromagram(signal, sr, ...)</code></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
